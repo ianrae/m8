@@ -14,6 +14,13 @@ create table complex (
   constraint pk_complex primary key (key))
 ;
 
+create table sample (
+  key                       bigint not null,
+  name                      varchar(255),
+  random_value              integer,
+  constraint pk_sample primary key (key))
+;
+
 create table simple (
   key                       bigint not null,
   name                      varchar(255),
@@ -21,6 +28,8 @@ create table simple (
 ;
 
 create sequence complex_seq;
+
+create sequence sample_seq;
 
 create sequence simple_seq;
 
@@ -33,11 +42,15 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists complex;
 
+drop table if exists sample;
+
 drop table if exists simple;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists complex_seq;
+
+drop sequence if exists sample_seq;
 
 drop sequence if exists simple_seq;
 
