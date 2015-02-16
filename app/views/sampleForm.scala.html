@@ -1,11 +1,11 @@
-@(key: Long, sampleForm: Form[Sample])
+@(key: Long, sampleForm: Form[mef.validate.SampleTwixt])
 @import helper._ 
 
 @main(if(key != null) "update sample" else "new sample") {
         
-	<h3>@if(key != null) { update sample } else { new sample } </h3>
+	<h3>@if(key != null) { update sample } else { new sample } RTT</h3>
 
-    @form(if(key != null) { play.utils.crud.routes.RouterCrudController.update("Sample", sampleForm.get().getKey() + "") } 
+    @form(if(key != null) { play.utils.crud.routes.RouterCrudController.update("Sample", key.toString() + "") } 
           else            { play.utils.crud.routes.RouterCrudController.create("Sample") }) { 
         
         @inputText(sampleForm("name"), args = '_label -> "name")
