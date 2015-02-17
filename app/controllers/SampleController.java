@@ -115,41 +115,4 @@ public class SampleController extends CRUDController<Long, Sample> {
 	}	
 	
 	
-	@SuppressWarnings("unchecked")
-	protected <R> R xcall(String className, String methodName, Parameters params)
-			throws ClassNotFoundException, MethodNotFoundException {
-		if (xlog.isDebugEnabled())
-			xlog.debug("xxxcall <-");
-		if (xlog.isDebugEnabled())
-			xlog.debug("className : " + className);
-		if (xlog.isDebugEnabled())
-			xlog.debug("methodName : " + methodName);
-		if (xlog.isDebugEnabled())
-			xlog.debug("params : " + params);
-		
-		ClassLoader appClassloader = Play.classloader(Play.current());		
-		ClassLoader cl = appClassloader; //classLoader();
-		Object result = null;
-		Class<?> clazz = cl.loadClass(className);
-		if (xlog.isDebugEnabled())
-			xlog.debug("clazz : " + clazz);
-		
-		for(Method mm : clazz.getMethods())
-		{
-			xlog.debug(mm.toString());
-		}
-
-		Class<?>[] paramTypes = params.types();
-		Object[] paramValues = params.values();
-		Method method = ReflectionUtils.findMethod(clazz, methodName,
-				paramTypes);
-		if (xlog.isDebugEnabled())
-			xlog.debug("method : " + method);
-
-		if (method == null) {
-			throw new MethodNotFoundException(className, methodName, paramTypes);
-		}
-		result = null;
-		return (R) result;
-	}	
 }
