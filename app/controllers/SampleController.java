@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import org.springframework.util.ReflectionUtils;
 
 import mef.validate.SampleTwixt;
+import mef.validate.ValueContainerBinder;
 import models.Sample;
 import models.dao.SampleDAO;
 import play.Logger;
@@ -87,14 +88,18 @@ public class SampleController extends CRUDController<Long, Sample> {
 	@Override
 	public Result create() {
 		if (xlog.isDebugEnabled())
-			xlog.debug("Xcreate() <-");
-
-		Form<SampleTwixt> form =  Form.form(SampleTwixt.class);
+			xlog.debug("ccXcreate() <-");
 		
-		Form<SampleTwixt> filledForm = form.bindFromRequest();
-		if (filledForm.hasErrors()) {
+		ValueContainerBinder<SampleTwixt> binder = new ValueContainerBinder<SampleTwixt>(SampleTwixt.class);
+		boolean b = binder.bind();
+		Form<SampleTwixt> filledForm = binder.getForm();
+		
+//		Form<SampleTwixt> form =  Form.form(SampleTwixt.class);
+//		Form<SampleTwixt> filledForm = form.bindFromRequest();
+//		boolean b = filledForm.hasErrors();
+		if (!b) {
 			if (xlog.isDebugEnabled())
-				xlog.debug("Xvalidation errors occured: " + filledForm.errors());
+				xlog.debug("Xvalidation errors occured: " + binder.getValidationErrors()); // filledForm.errors());
 
 			return badRequest(xrenderForm(null, filledForm));
 		} else {
