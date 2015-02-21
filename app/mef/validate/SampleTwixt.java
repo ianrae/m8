@@ -1,4 +1,6 @@
 package mef.validate;
+import models.Sample;
+
 import org.mef.framework.metadata.*;
 //import org.mef.framework.metadata.validate.ValContext;
 import org.mef.framework.metadata.validate.ValContext;
@@ -22,5 +24,18 @@ public class SampleTwixt implements ValueContainer
 	{
 		arg0.validate(name);
 	}
+	
+	@Override 
+	public void copyTo(Object model)
+	{
+		Sample m = (Sample)model;
+		m.setName(this.name.get());
+	}
 
+	@Override 
+	public void copyFrom(Object model)
+	{
+		Sample m = (Sample)model;
+		this.name.setValue(m.getName());
+	}
 }

@@ -72,8 +72,8 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 			{
 				return badRequest(xrenderForm(null, filledForm));
 			}
-			
-			copyDataToModel(twixt, model);
+
+			twixt.copyTo(model);
 			
 			DAO<K,M> dao = getDao();
 			dao.create(model);
@@ -96,7 +96,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 			xlog.debug("model : " + model);
 
 		T twixt = createTwixt();
-		this.copyDataFromModel(model, twixt);
+		twixt.copyFrom(model);
 		Form<T> frm = Form.form(this.twixtClass).fill(twixt);
 		return ok(xrenderForm(key, frm));
 	}
@@ -118,7 +118,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 			return badRequest(xrenderForm(key, filledForm));
 		} else {
 			T twixt = filledForm.get();		
-			this.copyDataToModel(twixt, original);
+			twixt.copyTo(original);
 			if (xlog.isDebugEnabled())
 				xlog.debug("model : " + original);
 			getDao().update(original);
@@ -132,10 +132,6 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		}
 	}
 	
-	
-	
-	protected abstract void copyDataToModel(T twixt, M model);
-	protected abstract void copyDataFromModel(M model, T twixt);
 	
 	protected M createModel()
 	{
