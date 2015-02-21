@@ -31,20 +31,6 @@ public class SampleController extends TwixtController<Long, Sample, SampleTwixt>
 		super(dao, Long.class, Sample.class, SampleTwixt.class, 10, "name");
 	}
 
-	@Override
-	protected String templateForList() {
-		return "sampleList";
-	}
-
-	@Override
-	protected String templateForForm() {
-		return "SampleForm";
-	}
-
-	@Override
-	protected String templateForShow() {
-		return "sampleShow";
-	}
 
 	@Override
 	protected Call toIndex() {

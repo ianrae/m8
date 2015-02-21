@@ -154,6 +154,38 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		}
 		return twixt;
 	}
+	
+	protected String getModelTemplatePrefix()
+	{
+		return this.getModelClass().getSimpleName();
+	}
+	protected String genTemplate(String s)
+	{
+		s = getModelTemplatePrefix() + s;
+		
+		String tmp = s.substring(0, 1).toLowerCase();
+		tmp += s.substring(1);
+		
+		Logger.info("R: " + tmp);
+		
+		return tmp;
+	}
+	
+	@Override
+	protected String templateForList() {
+		return  genTemplate("List");
+	}
+
+	@Override
+	protected String templateForForm() {
+		return  genTemplate("Form");
+	}
+
+	@Override
+	protected String templateForShow() {
+		return  genTemplate("Show");
+	}
+	
 
 	
 }
