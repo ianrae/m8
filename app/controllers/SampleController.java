@@ -23,11 +23,12 @@ import play.utils.crud.CRUDController;
 import play.utils.crud.Parameters;
 import play.utils.dao.DAO;
 
-public class SampleController extends CRUDController<Long, Sample> {
+public class SampleController extends TwixtController<Long, Sample, SampleTwixt> {
 	
 	@Inject
-	public SampleController(SampleDAO dao) {
-		super(dao, form(Sample.class), Long.class, Sample.class, 10, "name");
+	public SampleController(SampleDAO dao) 
+	{
+		super(dao, Long.class, Sample.class, SampleTwixt.class, 10, "name");
 	}
 
 	@Override
@@ -50,74 +51,10 @@ public class SampleController extends CRUDController<Long, Sample> {
 		return routes.Application.index();
 	}
 	
-	
-//	@Override
-//	protected Result badRequest(String template, Parameters params) {
-//		return badRequest(render(template, params));
-//	}
-	
-	private static ALogger xlog = Logger.of(CRUDController.class);
-	
-	protected Content xrenderForm(Long key, Form<SampleTwixt> form) {
-		
-//		try {
-//			xlog.debug("A");
-////			xcall("views.html.SampleForm", "render", with(Long.class, key).and(SampleTwixt.class, form));
-//			xlog.debug("A");
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (MethodNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		return render(templateForForm(), with(Long.class, key).and(Form.class, form));
-	}
-	
-	
-	public Result newForm() {
-		if (xlog.isDebugEnabled())
-			xlog.debug("xnewForm() <-");
-		Form<SampleTwixt> form =  Form.form(SampleTwixt.class);
-		
-
-
-		return ok(xrenderForm(null, form));
-	}	
-	
 	@Override
-	public Result create() {
-		if (xlog.isDebugEnabled())
-			xlog.debug("ccXcreate() <-");
-		
-		ValueContainerBinder<SampleTwixt> binder = new ValueContainerBinder<SampleTwixt>(SampleTwixt.class);
-		boolean b = binder.bind();
-		Form<SampleTwixt> filledForm = binder.getForm();
-		
-//		Form<SampleTwixt> form =  Form.form(SampleTwixt.class);
-//		Form<SampleTwixt> filledForm = form.bindFromRequest();
-//		boolean b = filledForm.hasErrors();
-		if (!b) {
-			if (xlog.isDebugEnabled())
-				xlog.debug("Xvalidation errors occured: " + binder.getValidationErrors()); // filledForm.errors());
-
-			return badRequest(xrenderForm(null, filledForm));
-		} else {
-			SampleTwixt twixt = filledForm.get();
-			Sample model = new Sample();
-			model.setName(twixt.name.get());
-			
-			DAO<Long,Sample> dao = getDao();
-			dao.create(model);
-			if (xlog.isDebugEnabled())
-				xlog.debug("Xentity created");
-
-			Call index = toIndex();
-			if (xlog.isDebugEnabled())
-				xlog.debug("Xindex : " + index);
-			return redirect(index);
-		}
-	}	
-	
+	protected void copyData(SampleTwixt twixt, Sample model) 
+	{
+		model.setName(twixt.name.get());
+	}
 	
 }
