@@ -166,8 +166,6 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		String tmp = s.substring(0, 1).toLowerCase();
 		tmp += s.substring(1);
 		
-		Logger.info("R: " + tmp);
-		
 		return tmp;
 	}
 	
