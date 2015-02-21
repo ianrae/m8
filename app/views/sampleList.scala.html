@@ -25,6 +25,10 @@
         @for(sample <- page.getList()) {
             <tr>
                 <td>
+				<a href='@play.utils.crud.routes.RouterCrudController.show("Sample", sample.getKey().toString())'>@sample.getKey()</a>                
+                	
+               	</td>
+                <td>
                 	@sample.getName()
                	</td>
                 <td>
