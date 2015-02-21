@@ -27,11 +27,20 @@ create table simple (
   constraint pk_simple primary key (key))
 ;
 
+create table taxi (
+  key                       bigint not null,
+  name                      varchar(255),
+  size                      integer,
+  constraint pk_taxi primary key (key))
+;
+
 create sequence complex_seq;
 
 create sequence sample_seq;
 
 create sequence simple_seq;
+
+create sequence taxi_seq;
 
 
 
@@ -46,6 +55,8 @@ drop table if exists sample;
 
 drop table if exists simple;
 
+drop table if exists taxi;
+
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists complex_seq;
@@ -53,4 +64,6 @@ drop sequence if exists complex_seq;
 drop sequence if exists sample_seq;
 
 drop sequence if exists simple_seq;
+
+drop sequence if exists taxi_seq;
 
