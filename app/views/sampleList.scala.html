@@ -2,6 +2,17 @@
 @import helper._ 
 @import helper.twitterBootstrap._
 
+
+@linkShow(key:Long, model:Object) = {
+	<a href='@play.utils.crud.routes.RouterCrudController.show(model.getClass().getSimpleName(), key.toString())'>@key.toString()</a>                
+}
+@linkEdit(key:Long, model:Object) = {
+	<a href='@play.utils.crud.routes.RouterCrudController.editForm(model.getClass().getSimpleName(), key.toString())'>Edit</a>                
+}
+@linkDelete(key:Long, model:Object) = {
+	<a href='@play.utils.crud.routes.RouterCrudController.delete(model.getClass().getSimpleName(), key.toString())'>Delete</a>                
+}
+
 @main("list") {
 
 	<h3>@page.getTotalRowCount() objects</h3>
@@ -25,14 +36,17 @@
         @for(sample <- page.getList()) {
             <tr>
                 <td>
-				<a href='@play.utils.crud.routes.RouterCrudController.show("Sample", sample.getKey().toString())'>@sample.getKey()</a>                
-                	
+                @linkShow(sample.getKey(), sample)
                	</td>
                 <td>
                 	@sample.getName()
                	</td>
                 <td>
                 	@sample.getRandomValue()
+               	</td>
+                <td>
+                @linkEdit(sample.getKey(), sample)
+                @linkDelete(sample.getKey(), sample)
                	</td>
             </tr>
         }
