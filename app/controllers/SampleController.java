@@ -52,9 +52,15 @@ public class SampleController extends TwixtController<Long, Sample, SampleTwixt>
 	}
 	
 	@Override
-	protected void copyData(SampleTwixt twixt, Sample model) 
+	protected void copyDataToModel(SampleTwixt twixt, Sample model) 
 	{
 		model.setName(twixt.name.get());
+	}
+
+	@Override
+	protected void copyDataFromModel(Sample model, SampleTwixt twixt) 
+	{
+		twixt.name.setValue(model.getName());
 	}
 	
 }

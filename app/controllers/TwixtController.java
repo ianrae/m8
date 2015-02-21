@@ -36,7 +36,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 	
 	private static ALogger xlog = Logger.of(CRUDController.class);
 	
-	protected Content xrenderForm(Long key, Form<T> form) 
+	protected Content xrenderForm(K key, Form<T> form) 
 	{
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form));
 	}
@@ -51,7 +51,8 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 	}	
 	
 	@Override
-	public Result create() {
+	public Result create()
+	{
 		if (xlog.isDebugEnabled())
 			xlog.debug("ccXcreate() <-");
 		
@@ -66,23 +67,13 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 			return badRequest(xrenderForm(null, filledForm));
 		} else {
 			T twixt = filledForm.get();
-			M model = null;
-			try {
-				model = this.getModelClass().newInstance();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			M model = createModel();
 			if (model == null)
 			{
 				return badRequest(xrenderForm(null, filledForm));
 			}
 			
-			copyData(twixt, model);
+			copyDataToModel(twixt, model);
 			
 			DAO<K,M> dao = getDao();
 			dao.create(model);
@@ -95,8 +86,78 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 			return redirect(index);
 		}
 	}
+		
+	public Result editForm(K key) {
+		if (xlog.isDebugEnabled())
+			xlog.debug("editForm() <-" + key);
 
-	protected abstract void copyData(T twixt, M model);
+		M model = this.getDao().get(key);
+		if (xlog.isDebugEnabled())
+			xlog.debug("model : " + model);
+
+		T twixt = createTwixt();
+		this.copyDataFromModel(model, twixt);
+		Form<T> frm = Form.form(this.twixtClass).fill(twixt);
+		return ok(xrenderForm(key, frm));
+	}
+
+	public Result update(K key) {
+		if (xlog.isDebugEnabled())
+			xlog.debug("update() <-" + key);
+
+		M original = getDao().get(key);
+		
+		ValueContainerBinder<T> binder = new ValueContainerBinder<T>(twixtClass);
+		boolean b = binder.bind();
+		Form<T> filledForm = binder.getForm();
+		
+		if (! b) {
+			if (xlog.isDebugEnabled())
+				xlog.debug("validation errors occured: " + binder.getValidationErrors());
+
+			return badRequest(xrenderForm(key, filledForm));
+		} else {
+			T twixt = filledForm.get();		
+			this.copyDataToModel(twixt, original);
+			if (xlog.isDebugEnabled())
+				xlog.debug("model : " + original);
+			getDao().update(original);
+			if (xlog.isDebugEnabled())
+				xlog.debug("entity updated");
+
+			Call index = toIndex();
+			if (xlog.isDebugEnabled())
+				xlog.debug("index : " + index);
+			return redirect(index);
+		}
+	}
 	
+	
+	
+	protected abstract void copyDataToModel(T twixt, M model);
+	protected abstract void copyDataFromModel(M model, T twixt);
+	
+	protected M createModel()
+	{
+		M model = null;
+		try {
+			model = this.getModelClass().newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return model;
+	}
+
+	protected T createTwixt()
+	{
+		T twixt = null;
+		try {
+			twixt = this.twixtClass.newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return twixt;
+	}
+
 	
 }
