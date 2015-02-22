@@ -25,7 +25,7 @@ public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> {
 		super(dao, Long.class, Taxi.class, TaxiTwixt.class, 10, "name");
 		
 		Field f = ReflectionUtils.findField(TaxiTwixt.class, "ball");
-		meta = new FieldMetadata(f, new StringConverter());
+		meta = new FieldMetadata(f, null); //new StringConverter());
 		
 	}
 
