@@ -9,6 +9,8 @@ public class TaxiTwixt implements ValueContainer
 	public StringValue name;
 	public IntegerValue size;
 	
+	public String ball;
+	
 	public TaxiTwixt()
 	{
 		this("", 0);

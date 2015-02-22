@@ -1,4 +1,4 @@
-@(key: Long, taxiForm: Form[mef.validate.TaxiTwixt])
+@(key: Long, taxiForm: Form[mef.validate.TaxiTwixt], field:play.utils.meta.FieldMetadata)
 @import helper._ 
 
 @main(if(key != null) "update taxi" else "new taxi") {
@@ -10,6 +10,10 @@
         
         @inputText(taxiForm("name"), args = '_label -> "name")
         @inputText(taxiForm("size"), args = '_label -> "size")
+        
+        <div>A
+		@field.getWidget.render(taxiForm)
+        </div>
         <div>
            <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Create }">
         </div>
