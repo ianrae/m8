@@ -4,6 +4,8 @@ import models.Taxi;
 import org.mef.framework.metadata.*;
 import org.mef.framework.metadata.validate.ValContext;
 
+import play.Logger;
+
 public class TaxiTwixt implements ValueContainer
 {
 	public StringValue name;
@@ -14,6 +16,7 @@ public class TaxiTwixt implements ValueContainer
 	public TaxiTwixt()
 	{
 		this("", 0);
+		ball = "red";
 	}
 	
 	public TaxiTwixt(String namex, int size)
@@ -43,5 +46,6 @@ public class TaxiTwixt implements ValueContainer
 		Taxi m = (Taxi)model;
 		this.name.setValue(m.getName());
 		this.size.setValue(m.getSize());
+		Logger.info("AA: " + this.name);
 	}
 }

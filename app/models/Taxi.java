@@ -48,6 +48,6 @@ public class Taxi extends Model implements BasicModel<Long> {
 
 	@Override
 	public String toString() {
-		return "Sample [key=" + key + ", name=" + name + "]";
+		return "Taxi [key=" + key + ", name=" + name + String.format(", size=%d", size) + "]";
 	}
 }
