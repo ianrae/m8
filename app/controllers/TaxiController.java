@@ -14,6 +14,7 @@ import play.data.Form;
 import play.mvc.Call;
 import play.twirl.api.Content;
 import play.utils.meta.FieldMetadata;
+import play.utils.meta.form.TextWidget;
 
 public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> 
 {
@@ -24,11 +25,24 @@ public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt>
 	{
 		super(dao, Long.class, Taxi.class, TaxiTwixt.class, 10, "name");
 		
-		Field f = ReflectionUtils.findField(TaxiTwixt.class, "ball");
+		Field f = ReflectionUtils.findField(TaxiTwixt.class, "name");
 		meta = new FieldMetadata(f, null); //new StringConverter());
 		
+		TextWidget w = new TextWidget(meta);
+		try {
+			forceSetWidget(meta, w);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
+	private void forceSetWidget(FieldMetadata meta2, TextWidget w) throws Exception 
+	{
+		Field f = ReflectionUtils.findField(meta2.getClass(), "widget");
+		f.setAccessible(true); //force!
+		f.set(meta2, w);
+	}
 
 	@Override
 	protected Content xrenderForm(Long key, Form<TaxiTwixt> form) 
