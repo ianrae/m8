@@ -10,6 +10,7 @@ import mef.validate.TaxiTwixt;
 import models.Taxi;
 import models.dao.TaxiDAO;
 
+import org.mef.framework.metadata.Value;
 import org.springframework.util.ReflectionUtils;
 
 import play.data.Form;
@@ -18,7 +19,7 @@ import play.twirl.api.Content;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.form.TextWidget;
 
-public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> 
+public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
 {
 	List<FieldMetadata> metaL = new ArrayList<FieldMetadata>();
 	
@@ -27,9 +28,26 @@ public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt>
 	{
 		super(dao, Long.class, Taxi.class, TaxiTwixt.class, 10, "name");
 		
-		addFieldToMetaL("name");
-		addFieldToMetaL("size");
+//		addFieldToMetaL("name");
+//		addFieldToMetaL("size");
+	
+		ReflectionUtils.doWithFields(TaxiTwixt.class, this, this);
 	}
+
+
+	@Override
+	public void doWith(Field arg0) throws IllegalArgumentException,
+	IllegalAccessException 
+	{
+//		log(arg0.getName());
+		addFieldToMetaL(arg0.getName());
+	}
+
+	@Override
+	public boolean matches(Field arg0) 
+	{
+		return (Value.class.isAssignableFrom(arg0.getType()));
+	}	
 	
 	private void addFieldToMetaL(String fieldName)
 	{
