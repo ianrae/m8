@@ -20,7 +20,7 @@ import play.utils.dao.DAO;
 
 public abstract class TwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends CRUDController<K, M> 
 {
-	private Class<T> twixtClass;
+	protected Class<T> twixtClass;
 	
 	@Inject
 	public TwixtController(DAO<K, M> dao, Class<K> keyClass, Class<M> modelClass, Class<T>twixtClass, int pageSize, String orderBy) {
