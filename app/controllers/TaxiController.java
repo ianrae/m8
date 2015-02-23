@@ -1,6 +1,8 @@
 package controllers;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -18,16 +20,21 @@ import play.utils.meta.form.TextWidget;
 
 public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> 
 {
-	FieldMetadata meta;
+	List<FieldMetadata> metaL = new ArrayList<FieldMetadata>();
 	
 	@Inject
 	public TaxiController(TaxiDAO dao) 
 	{
 		super(dao, Long.class, Taxi.class, TaxiTwixt.class, 10, "name");
 		
-		Field f = ReflectionUtils.findField(TaxiTwixt.class, "name");
-		meta = new FieldMetadata(f, null); //new StringConverter());
-		
+		addFieldToMetaL("name");
+		addFieldToMetaL("size");
+	}
+	
+	private void addFieldToMetaL(String fieldName)
+	{
+		Field f = ReflectionUtils.findField(TaxiTwixt.class, fieldName);
+		FieldMetadata meta = new FieldMetadata(f, null); //new StringConverter());
 		TextWidget w = new TextWidget(meta);
 		try {
 			forceSetWidget(meta, w);
@@ -35,6 +42,7 @@ public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt>
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		metaL.add(meta);
 	}
 
 	private void forceSetWidget(FieldMetadata meta2, TextWidget w) throws Exception 
@@ -47,7 +55,7 @@ public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt>
 	@Override
 	protected Content xrenderForm(Long key, Form<TaxiTwixt> form) 
 	{
-		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form).and(FieldMetadata.class, meta));
+		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form).and(metaL.getClass(), metaL));
 	}	
 	
 	@Override

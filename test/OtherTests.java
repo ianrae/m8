@@ -1,6 +1,8 @@
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import mef.validate.TaxiTwixt;
 import models.Sample;
@@ -31,6 +33,20 @@ public class OtherTests extends BaseTest
 		Field f = ReflectionUtils.findField(TaxiTwixt.class, "ball");
 		FieldMetadata meta = new FieldMetadata(f, new StringConverter());
 		assertNotNull(f);
+	}
+	
+	@Test
+	public void findL()
+	{
+		List<FieldMetadata> L = new ArrayList<FieldMetadata>();
+		Class clazz = L.getClass();
+		log(clazz.getName());
+		
+		List<FieldMetadata> L2 = null;
+		clazz = L2.getClass();
+		log(clazz.getName());
+		
+		
 	}
 
 }

@@ -10,7 +10,7 @@ public class ValueTests extends BaseTest
 
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+		log("a");
 	}
 
 }
