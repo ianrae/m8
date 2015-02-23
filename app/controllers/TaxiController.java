@@ -4,19 +4,19 @@ import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 
-import org.springframework.util.ReflectionUtils;
-
 import mef.validate.TaxiTwixt;
 import models.Taxi;
 import models.dao.TaxiDAO;
+
+import org.springframework.util.ReflectionUtils;
+
 import play.data.Form;
 import play.mvc.Call;
 import play.twirl.api.Content;
 import play.utils.meta.FieldMetadata;
-import play.utils.meta.convert.StringConverter;
 
-public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> {
-	
+public class TaxiController extends TwixtController<Long, Taxi, TaxiTwixt> 
+{
 	FieldMetadata meta;
 	
 	@Inject
