@@ -12,7 +12,8 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 {
 	boolean inCtor;
 	private Object modelToCopyFrom;
-	
+	private Object modelToCopyTo;
+
 	public TwixtForm()
 	{}
 
@@ -33,8 +34,12 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 		{
 			copyFieldFromModel(field);
 		}
+		else if (modelToCopyTo != null)
+		{
+			copyFieldToModel(field);
+		}
 	}
-	
+
 	private void initField(Field field)
 	{
 		Class<?> clazz = field.getType();
@@ -60,18 +65,18 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 		{
 			try 
 			{
-				String getFnName = "get" + uppify(field.getName());
-				Method meth = ReflectionUtils.findMethod(this.modelToCopyFrom.getClass(), getFnName);
+				String fnName = "get" + uppify(field.getName());
+				Method meth = ReflectionUtils.findMethod(this.modelToCopyFrom.getClass(), fnName);
 				if (meth != null)
 				{
 					Object src = meth.invoke(this.modelToCopyFrom);
-					
-					getFnName = "forceValueObject";
-					meth = ReflectionUtils.findMethod(clazz, getFnName, Object.class);
-					
+
+					fnName = "forceValueObject";
+					meth = ReflectionUtils.findMethod(clazz, fnName, Object.class);
+
 					field.setAccessible(true);
 					Object valueObj = field.get(this);
-					
+
 					meth.invoke(valueObj, src);
 				}
 			} 
@@ -81,7 +86,83 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 			}
 		}
 	}
+
+	private void copyFieldToModel(Field field)
+	{
+		Class<?> clazz = field.getType();
+		if (Value.class.isAssignableFrom(clazz))
+		{
+			try 
+			{
+				field.setAccessible(true);
+				Object valueObj = field.get(this);
+
+				String fnName = "getRawValue";
+				Method meth = ReflectionUtils.findMethod(valueObj.getClass(), fnName);
+				if (meth != null)
+				{
+					Object src = meth.invoke(valueObj);
+
+					fnName = "set" + uppify(field.getName());
+					meth = findMatchingMethod(field, src);
+					if (meth != null)
+					{
+						meth.invoke(this.modelToCopyTo, src);
+					}
+				} 
+			}
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
 	
+	private Method findMatchingMethod(Field field, Object src)
+	{
+		String fnName = "set" + uppify(field.getName());
+		Method meth = ReflectionUtils.findMethod(this.modelToCopyTo.getClass(), fnName, src.getClass());
+		if (meth != null)
+		{
+			return meth;
+		}
+		
+		if (src.getClass().equals(Integer.class))
+		{
+			meth = ReflectionUtils.findMethod(this.modelToCopyTo.getClass(), fnName, int.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		else if (src.getClass().equals(Boolean.class))
+		{
+			meth = ReflectionUtils.findMethod(this.modelToCopyTo.getClass(), fnName, boolean.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		else if (src.getClass().equals(Long.class))
+		{
+			meth = ReflectionUtils.findMethod(this.modelToCopyTo.getClass(), fnName, long.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		else if (src.getClass().equals(Double.class))
+		{
+			meth = ReflectionUtils.findMethod(this.modelToCopyTo.getClass(), fnName, double.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		
+		return null;
+	}
+
 	private String uppify(String name) 
 	{
 		String upper = name.toUpperCase();
@@ -109,6 +190,10 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 		ReflectionUtils.doWithFields(this.getClass(), this, ReflectionUtils.COPYABLE_FIELDS);
 	}
 	protected void copyFieldsTo(Object model)
-	{}
-	
+	{
+		inCtor = false;
+		modelToCopyTo = model;
+		ReflectionUtils.doWithFields(this.getClass(), this, ReflectionUtils.COPYABLE_FIELDS);
+	}
+
 }

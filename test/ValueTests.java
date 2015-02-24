@@ -29,9 +29,9 @@ public class ValueTests extends BaseTest
 		}
 
 		@Override
-		public void copyTo(Object model) {
-			// TODO Auto-generated method stub
-			
+		public void copyTo(Object model) 
+		{
+			this.copyFieldsTo(model);
 		}
 	}
 	
@@ -75,6 +75,19 @@ public class ValueTests extends BaseTest
 		{
 			return b;
 		}
+		
+		public void setS(String s)
+		{
+			this.s = s;
+		}
+		public void setAbc(int n)
+		{
+			this.abc = n;
+		}
+		public void setB(boolean b)
+		{
+			this.b = b;
+		}
 	}
 	
 	
@@ -98,7 +111,7 @@ public class ValueTests extends BaseTest
 	}
 	
 	@Test
-	public void testCopy() 
+	public void testCopyFrom() 
 	{
 		MyModel m = new MyModel();
 		m.abc = 45;
@@ -111,5 +124,21 @@ public class ValueTests extends BaseTest
 		assertEquals(45, frm.abc.get());
 		assertEquals(true, frm.b.get());
 		assertEquals("def", frm.s.get());
+	}
+	
+	@Test
+	public void testCopyTo() 
+	{
+		MyModel m = new MyModel();
+		
+		MyForm frm = new MyForm();
+		frm.abc.setValue(15);
+		frm.b.setValue(true);
+		frm.s.setValue("apple");
+		frm.copyTo(m);
+		
+		assertEquals("apple", m.s);
+		assertEquals(15, m.abc);
+		assertEquals(true, m.b);
 	}
 }
