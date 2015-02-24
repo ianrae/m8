@@ -6,7 +6,7 @@ import org.mef.framework.metadata.validate.ValContext;
 
 import play.Logger;
 
-public class TaxiTwixt implements ValueContainer
+public class TaxiTwixt extends TwixtForm
 {
 	public StringValue name;
 	public IntegerValue size;
