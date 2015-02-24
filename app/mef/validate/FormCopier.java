@@ -6,13 +6,13 @@ import java.lang.reflect.Method;
 import org.mef.framework.metadata.Value;
 import org.springframework.util.ReflectionUtils;
 
-public class FieldCopier implements ReflectionUtils.FieldCallback
+public class FormCopier implements ReflectionUtils.FieldCallback
 {
 	TwixtForm form;
 	private Object modelToCopyFrom;
 	private Object modelToCopyTo;
 
-	public FieldCopier()
+	public FormCopier()
 	{}
 	
 	public void copyToModel(TwixtForm twixtForm, Object model)

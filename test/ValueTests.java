@@ -90,6 +90,28 @@ public class ValueTests extends BaseTest
 		}
 	}
 	
+	public static class MyForm2 extends TwixtForm
+	{
+		StringValue s = new StringValue("halifax");
+		IntegerValue abc;
+		
+		public MyForm2()
+		{
+			this.initFields();
+		}
+
+		@Override
+		public void copyFrom(Object model) 
+		{
+			this.copyFieldsFrom(model);
+		}
+
+		@Override
+		public void copyTo(Object model) 
+		{
+			this.copyFieldsTo(model);
+		}
+	}
 	
 	@Test
 	public void test() 
@@ -99,6 +121,15 @@ public class ValueTests extends BaseTest
 		assertNotNull(frm.s);
 		assertNotNull(frm.abc);
 		assertNotNull(frm.b);
+	}
+
+	@Test
+	public void test2() 
+	{
+		MyForm2 frm = new MyForm2();
+		assertNotNull(frm.s);
+		assertNotNull(frm.abc);
+		assertEquals("halifax", frm.s.get());
 	}
 
 	@Test
