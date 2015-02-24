@@ -49,6 +49,9 @@ public class FieldCopier implements ReflectionUtils.FieldCallback
 		{
 			try 
 			{
+				field.setAccessible(true);
+				Object valueObj = field.get(form);
+				
 				String fnName = "get" + uppify(field.getName());
 				Method meth = ReflectionUtils.findMethod(modelToCopyFrom.getClass(), fnName);
 				if (meth != null)
@@ -57,9 +60,6 @@ public class FieldCopier implements ReflectionUtils.FieldCallback
 
 					fnName = "forceValueObject";
 					meth = ReflectionUtils.findMethod(clazz, fnName, Object.class);
-
-					field.setAccessible(true);
-					Object valueObj = field.get(form);
 
 					meth.invoke(valueObj, src);
 				}

@@ -26,8 +26,13 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 		{
 			try 
 			{
-				Object obj = clazz.newInstance();
 				field.setAccessible(true);
+				if (field.get(this) != null)
+				{
+					return; //skip ones that are already not null
+				}
+				
+				Object obj = clazz.newInstance();
 				field.set(this, obj);
 			} 
 			catch (Exception e) 
