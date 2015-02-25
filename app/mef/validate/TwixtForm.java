@@ -45,33 +45,16 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 	@Override
 	public void copyFrom(Object model) 
 	{
-		this.copyFieldsFrom(model);
+		FormCopier copier = new FormCopier(this);
+		copier.copyFromModel(model, this);
 	}
 
 	@Override
 	public void copyTo(Object model) 
 	{
-		this.copyFieldsTo(model);
-	}
-
-	@Override
-	public void validateContainer(ValContext arg0) 
-	{
-	}
-
-	//helpers
-	protected void copyFieldsFrom(Object model)
-	{
-		FormCopier copier = new FormCopier(this);
-		copier.copyFromModel(model, this);
-	}
-	protected void copyFieldsTo(Object model)
-	{
 		FormCopier copier = new FormCopier(this);
 		copier.copyToModel(this, model);
 	}
-	
-	
 	@Override
 	public void copyFieldFromModel(FormCopier copier, Field field)
 	{
@@ -83,4 +66,9 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 		copier.copyFieldToModel(field);
 	}
 
+	@Override
+	public void validateContainer(ValContext arg0) 
+	{
+	}
+	
 }
