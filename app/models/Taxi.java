@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +23,17 @@ public class Taxi extends Model implements BasicModel<Long> {
 	
 	@Basic
 	private int size;
+	
+	@Basic
+	private Date startDate;
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
 
 	public Long getKey() {
 		return key;

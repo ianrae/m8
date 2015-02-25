@@ -31,6 +31,7 @@ create table taxi (
   key                       bigint not null,
   name                      varchar(255),
   size                      integer,
+  start_date                timestamp,
   constraint pk_taxi primary key (key))
 ;
 
