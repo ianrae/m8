@@ -2,6 +2,7 @@ package mef.validate;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import org.mef.framework.metadata.Value;
 import org.springframework.util.ReflectionUtils;
@@ -161,6 +162,14 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		else if (src.getClass().equals(Double.class))
 		{
 			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, double.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
+		else if (src.getClass().equals(Date.class))
+		{
+			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, Date.class);
 			if (meth != null)
 			{
 				return meth;

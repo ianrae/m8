@@ -1,4 +1,6 @@
 package mef.validate;
+import java.util.Date;
+
 import models.Taxi;
 
 import org.mef.framework.metadata.*;
@@ -10,6 +12,7 @@ public class TaxiTwixt extends TwixtForm
 {
 	public StringValue name;
 	public IntegerValue size;
+	public DateValue startDate;
 	
 	public String ball;
 	
@@ -23,6 +26,7 @@ public class TaxiTwixt extends TwixtForm
 	{
 		this.name = new StringValue(namex);
 		this.size = new IntegerValue(size);
+		this.startDate = new DateValue(new Date());
 	}
 
 	@Override
@@ -30,6 +34,7 @@ public class TaxiTwixt extends TwixtForm
 	{
 		arg0.validate(name);
 		arg0.validate(size);
+		arg0.validate(startDate);
 	}
 	
 	@Override 
@@ -38,6 +43,7 @@ public class TaxiTwixt extends TwixtForm
 		Taxi m = (Taxi)model;
 		m.setName(this.name.get());
 		m.setSize(size.get());
+		m.setStartDate(this.startDate.get());
 	}
 
 	@Override 
@@ -46,6 +52,7 @@ public class TaxiTwixt extends TwixtForm
 		Taxi m = (Taxi)model;
 		this.name.setValue(m.getName());
 		this.size.setValue(m.getSize());
+		this.startDate.setValue(m.getStartDate());
 		Logger.info("AA: " + this.name);
 	}
 }

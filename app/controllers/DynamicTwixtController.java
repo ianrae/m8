@@ -8,6 +8,7 @@ import org.mef.framework.metadata.Value;
 import org.mef.framework.metadata.ValueContainer;
 import org.springframework.util.ReflectionUtils;
 
+import play.Logger;
 import play.data.Form;
 import play.mvc.Call;
 import play.twirl.api.Content;
@@ -46,6 +47,7 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		TextWidget w = new TextWidget(meta);
 		try {
 			forceSetWidget(meta, w);
+			Logger.info("ffff: " + fieldName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
