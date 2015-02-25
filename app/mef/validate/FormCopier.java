@@ -8,12 +8,21 @@ import org.springframework.util.ReflectionUtils;
 
 public class FormCopier implements ReflectionUtils.FieldCallback
 {
+	public interface FieldCopier
+	{
+		void copyFieldFromModel(FormCopier copier, Field field);
+		void copyFieldToModel(FormCopier copier, Field field);
+	}
+	
 	TwixtForm form;
 	private Object modelToCopyFrom;
 	private Object modelToCopyTo;
+	private FieldCopier fieldCopier;
 
-	public FormCopier()
-	{}
+	public FormCopier(FieldCopier fieldCopier)
+	{
+		this.fieldCopier = fieldCopier;
+	}
 	
 	public void copyToModel(TwixtForm twixtForm, Object model)
 	{
@@ -34,15 +43,15 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 	{
 		if (modelToCopyFrom != null)
 		{
-			copyFieldFromModel(field);
+			fieldCopier.copyFieldFromModel(this, field);
 		}
 		else if (modelToCopyTo != null)
 		{
-			copyFieldToModel(field);
+			fieldCopier.copyFieldToModel(this, field);
 		}
 	}
 
-	private void copyFieldFromModel(Field field)
+	public void copyFieldFromModel(Field field)
 	{
 		Class<?> clazz = field.getType();
 		if (Value.class.isAssignableFrom(clazz))
@@ -71,7 +80,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		}
 	}
 
-	private void copyFieldToModel(Field field)
+	public void copyFieldToModel(Field field)
 	{
 		Class<?> clazz = field.getType();
 		if (Value.class.isAssignableFrom(clazz))

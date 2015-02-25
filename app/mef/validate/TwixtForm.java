@@ -8,7 +8,7 @@ import org.mef.framework.metadata.ValueContainer;
 import org.mef.framework.metadata.validate.ValContext;
 import org.springframework.util.ReflectionUtils;
 
-public abstract class TwixtForm implements ValueContainer, ReflectionUtils.FieldCallback
+public abstract class TwixtForm implements ValueContainer, ReflectionUtils.FieldCallback, FormCopier.FieldCopier
 {
 	public TwixtForm()
 	{}
@@ -56,13 +56,25 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 	//helpers
 	protected void copyFieldsFrom(Object model)
 	{
-		FormCopier copier = new FormCopier();
+		FormCopier copier = new FormCopier(this);
 		copier.copyFromModel(model, this);
 	}
 	protected void copyFieldsTo(Object model)
 	{
-		FormCopier copier = new FormCopier();
+		FormCopier copier = new FormCopier(this);
 		copier.copyToModel(this, model);
+	}
+	
+	
+	@Override
+	public void copyFieldFromModel(FormCopier copier, Field field)
+	{
+		copier.copyFieldFromModel(field);
+	}
+	@Override
+	public void copyFieldToModel(FormCopier copier, Field field)
+	{
+		copier.copyFieldToModel(field);
 	}
 
 }
