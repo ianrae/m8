@@ -22,17 +22,6 @@ public class ValueTests extends BaseTest
 			this.initFields();
 		}
 
-		@Override
-		public void copyFrom(Object model) 
-		{
-			this.copyFieldsFrom(model);
-		}
-
-		@Override
-		public void copyTo(Object model) 
-		{
-			this.copyFieldsTo(model);
-		}
 	}
 	
 	public static class MyDerivedForm extends MyForm
@@ -41,20 +30,9 @@ public class ValueTests extends BaseTest
 		
 		public MyDerivedForm()
 		{
-			this.initFields(); //double init -- can we avoid this??
+			this.initFields(); 
 		}
 
-		@Override
-		public void copyFrom(Object model) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void copyTo(Object model) {
-			// TODO Auto-generated method stub
-			
-		}
 	}
 	
 	public static class MyModel 
@@ -100,17 +78,6 @@ public class ValueTests extends BaseTest
 			this.initFields();
 		}
 
-		@Override
-		public void copyFrom(Object model) 
-		{
-			this.copyFieldsFrom(model);
-		}
-
-		@Override
-		public void copyTo(Object model) 
-		{
-			this.copyFieldsTo(model);
-		}
 	}
 	
 	@Test

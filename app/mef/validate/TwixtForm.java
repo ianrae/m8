@@ -1,7 +1,6 @@
 package mef.validate;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import org.mef.framework.metadata.Value;
 import org.mef.framework.metadata.ValueContainer;
@@ -41,12 +40,19 @@ public abstract class TwixtForm implements ValueContainer, ReflectionUtils.Field
 			}
 		}
 	}
+	
+	
+	@Override
+	public void copyFrom(Object model) 
+	{
+		this.copyFieldsFrom(model);
+	}
 
 	@Override
-	public abstract void copyFrom(Object model);
-
-	@Override
-	public abstract void copyTo(Object model);
+	public void copyTo(Object model) 
+	{
+		this.copyFieldsTo(model);
+	}
 
 	@Override
 	public void validateContainer(ValContext arg0) 
