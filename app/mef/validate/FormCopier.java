@@ -7,6 +7,8 @@ import java.util.Date;
 import org.mef.framework.metadata.Value;
 import org.springframework.util.ReflectionUtils;
 
+import play.Logger;
+
 public class FormCopier implements ReflectionUtils.FieldCallback
 {
 	public interface FieldCopier
@@ -115,6 +117,7 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 					meth = findMatchingMethod(field, src);
 					if (meth != null)
 					{
+						Logger.info("do: " + fnName + "=" + src);
 						meth.invoke(modelToCopyTo, src);
 					}
 				} 
@@ -146,6 +149,11 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 		else if (src.getClass().equals(Boolean.class))
 		{
 			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, boolean.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, Boolean.class);
 			if (meth != null)
 			{
 				return meth;
