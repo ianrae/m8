@@ -3,9 +3,10 @@ package mef.validate;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.mef.framework.metadata.LongSelectValue;
 import org.mef.framework.metadata.SelectValue;
 
-public class AccountType extends SelectValue
+public class AccountType extends LongSelectValue
 {
 	public AccountType()
 	{
@@ -16,12 +17,12 @@ public class AccountType extends SelectValue
 		super(id, accountTypes());
 	}
 
-	private static Map<String,String> accountTypes()
+	private static Map<Long,String> accountTypes()
 	{
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("1", "normal");
-		map.put("2", "premium");
-		map.put("3", "executive");
+		Map<Long,String> map = new HashMap<Long,String>();
+		map.put(1L, "normal");
+		map.put(2L, "premium");
+		map.put(3L, "executive");
 		return map;
 	}		
 }
