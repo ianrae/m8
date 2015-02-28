@@ -12,11 +12,11 @@ import org.mef.framework.metadata.validate.ValContext;
 import org.mef.framework.metadata.validate.ValidationErrorSpec;
 import org.reflections.Reflections;
 
-public class MycroftBinder
+public class TwixtBinder
 {
 	ValContext vtx;
 
-	public MycroftBinder()
+	public TwixtBinder()
 	{
 		vtx = new ValContext();
 	}

@@ -60,22 +60,22 @@ public class TaxiTwixt extends TwixtForm
 	}
 
 	
-	@Override 
-	public void copyTo(Object model)
-	{
-		Taxi m = (Taxi)model;
-		m.setName(this.name.get());
-		m.setSize(size.get());
-		m.setStartDate(this.startDate.get());
-	}
-
-	@Override 
-	public void copyFrom(Object model)
-	{
-		Taxi m = (Taxi)model;
-		this.name.set(m.getName());
-		this.size.set(m.getSize());
-		this.startDate.set(m.getStartDate());
-		Logger.info("AA: " + this.name);
-	}
+//	@Override 
+//	public void copyTo(Object model)
+//	{
+//		Taxi m = (Taxi)model;
+//		m.setName(this.name.get());
+//		m.setSize(size.get());
+//		m.setStartDate(this.startDate.get());
+//	}
+//
+//	@Override 
+//	public void copyFrom(Object model)
+//	{
+//		Taxi m = (Taxi)model;
+//		this.name.set(m.getName());
+//		this.size.set(m.getSize());
+//		this.startDate.set(m.getStartDate());
+//		Logger.info("AA: " + this.name);
+//	}
 }

@@ -15,7 +15,7 @@ public class ValueContainerBinder<T extends ValueContainer> implements IFormBind
 	{
 		private T entity;
 		private Class<T> clazz;
-		MycroftBinder binder = new MycroftBinder();
+		TwixtBinder binder = new TwixtBinder();
 		private DynamicForm form;
 
 		public ValueContainerBinder(Class<T> clazz)
