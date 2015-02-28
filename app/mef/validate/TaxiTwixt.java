@@ -52,6 +52,8 @@ public class TaxiTwixt extends TwixtForm
 		ball = "red";
 		size.setValidator(new EvenValidator());
 		name.setValidator(new NoAValidator());
+		
+		size.set(144);
 	}
 	
 	public TaxiTwixt(String namex, int size)

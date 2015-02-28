@@ -14,9 +14,9 @@ import views.html.helper.FieldConstructor;
 
 public class MySelectWidget extends FormFieldWidget {
 
-	private Map<Object, String> options;
+	public Map<Object, String> options;
 
-	public MySelectWidget(FieldMetadata fieldMetadata, Map<Object,String> options) {
+	public MySelectWidget(FieldMetadata fieldMetadata) {
 		super(fieldMetadata);
 		Class<?> declaringClass = field().getDeclaringClass();
 //		String parentClassName = declaringClass.getSimpleName();
@@ -25,7 +25,6 @@ public class MySelectWidget extends FormFieldWidget {
 //		for (Object constant : constants) {
 //			options.put(constant, parentClassName + "." + constant);
 //		}
-		this.options = options;
 	}
 
 	@Override

@@ -3,6 +3,9 @@ package controllers;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+
+import mef.validate.MySelectWidget;
 
 import org.mef.framework.metadata.BooleanValue;
 import org.mef.framework.metadata.DateValue;
@@ -29,7 +32,42 @@ import play.utils.meta.form.TextWidget;
 
 public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends TwixtController<K, M,T> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
 {
+	private class PreRender implements  ReflectionUtils.FieldCallback
+	{
+		@Override
+		public void doWith(Field arg0) throws IllegalArgumentException, IllegalAccessException 
+		{
+			Class<?> clazz = arg0.getType();
+			if (LongSelectValue.class.isAssignableFrom(clazz))
+			{
+				LongSelectValue val = (LongSelectValue) arg0.get(preRenderTwixt);
+				FieldMetadata meta = findMeta(arg0);
+				MySelectWidget w = (MySelectWidget) meta.getWidget();
+				
+				w.options = new TreeMap<Object,String>();
+				for(Long key : val.options().keySet())
+				{
+					w.options.put(key, val.options().get(key));
+				}
+			}
+		}
+
+		private FieldMetadata findMeta(Field arg0) 
+		{
+			for(FieldMetadata meta : metaL)
+			{
+				if (arg0.getName().equals(meta.getField().getName()))
+				{
+					return meta;
+				}
+			}
+			return null;
+		}
+	}
+
+
 	List<FieldMetadata> metaL = new ArrayList<FieldMetadata>();
+	private T preRenderTwixt;
 
 	public DynamicTwixtController(DAO<K, M> dao, Class<K> keyClass, Class<M> modelClass, Class<T>twixtClass, int pageSize, String orderBy) 
 	{
@@ -82,11 +120,11 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		}
 		else if (clazz.isAssignableFrom(SelectValue.class))
 		{
-			return new SelectWidget(meta);
+			return new MySelectWidget(meta);
 		}
 		else if (LongSelectValue.class.isAssignableFrom(clazz))
 		{
-			return new SelectWidget(meta);
+			return new MySelectWidget(meta);
 		}
 		else
 		{
@@ -105,6 +143,9 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 	@Override
 	protected Content xrenderForm(K key, Form<T> form) 
 	{
+		preRenderTwixt = form.get();
+		ReflectionUtils.doWithFields(preRenderTwixt.getClass(), new PreRender(), ReflectionUtils.COPYABLE_FIELDS);
+
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form).and(metaL.getClass(), metaL));
 	}	
 

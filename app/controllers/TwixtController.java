@@ -45,10 +45,22 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 	public Result newForm() {
 		if (xlog.isDebugEnabled())
 			xlog.debug("xnewForm() <-");
-		Form<T> form =  Form.form(twixtClass);
+		Form<T> form =  createForm(null);
 
 		return ok(xrenderForm(null, form));
 	}	
+	
+	private Form<T> createForm(M model)
+	{
+		T twixt = createTwixt();
+		if (model != null)
+		{
+			twixt.copyFrom(model);
+		}
+		Form<T> frm = Form.form(this.twixtClass).fill(twixt);
+		return frm;
+		
+	}
 	
 	@Override
 	public Result create()
@@ -95,9 +107,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		if (xlog.isDebugEnabled())
 			xlog.debug("model : " + model);
 
-		T twixt = createTwixt();
-		twixt.copyFrom(model);
-		Form<T> frm = Form.form(this.twixtClass).fill(twixt);
+		Form<T> frm = createForm(model);
 		return ok(xrenderForm(key, frm));
 	}
 
