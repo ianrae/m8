@@ -67,11 +67,7 @@ public class MycroftBinder
 				if (obj instanceof Value)
 				{
 					Value val = (Value)obj;
-					boolean b = val.fromString(s);
-					if (! b)
-					{
-						ok = false; //err!!
-					}
+					val.fromString(s);
 				}
 			}
 		}

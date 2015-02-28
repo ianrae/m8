@@ -36,6 +36,6 @@ public class SampleTwixt implements ValueContainer
 	public void copyFrom(Object model)
 	{
 		Sample m = (Sample)model;
-		this.name.setValue(m.getName());
+		this.name.set(m.getName());
 	}
 }

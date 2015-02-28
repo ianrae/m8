@@ -3,10 +3,9 @@ package mef.validate;
 import java.util.Map;
 
 import org.mef.framework.metadata.StringValue;
-import org.mef.framework.metadata.StringValueAndValidator;
-import org.mef.framework.metadata.validate.ValidationErrors;
+import org.mef.framework.metadata.validate.ValContext;
 
-public class SelectValue extends StringValueAndValidator 
+public class SelectValue extends StringValue
 {
 	protected Map<String, String> options;
 
@@ -20,13 +19,13 @@ public class SelectValue extends StringValueAndValidator
 	}
 	public SelectValue(String id, Map<String,String> options) 
 	{
-		super(id, "select");
+		super(id);
 		this.options = options;
 	}
 
 	public SelectValue(Long id, Map<String,String> options) 
 	{
-		super(id.toString(), "select");
+		super(id.toString());
 		this.options = options;
 	}
 	
@@ -40,18 +39,18 @@ public class SelectValue extends StringValueAndValidator
 	}
 	
 	@Override
-	public boolean validate(Object val, ValidationErrors errors) 
+	public boolean validate(ValContext valctx)
 	{
 		if (options == null)
 		{
 			return true;
 		}
 		
-		String id = (String)val;
+		String id = get();
 		boolean b = options.containsKey(id);
 		if (!b)
 		{
-			errors.addError("select: unknown id: " + id);
+			valctx.addError("select: unknown id: " + id);
 		}
 		return b;
 	}

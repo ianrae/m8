@@ -50,9 +50,9 @@ public class TaxiTwixt extends TwixtForm
 	public void copyFrom(Object model)
 	{
 		Taxi m = (Taxi)model;
-		this.name.setValue(m.getName());
-		this.size.setValue(m.getSize());
-		this.startDate.setValue(m.getStartDate());
+		this.name.set(m.getName());
+		this.size.set(m.getSize());
+		this.startDate.set(m.getStartDate());
 		Logger.info("AA: " + this.name);
 	}
 }
