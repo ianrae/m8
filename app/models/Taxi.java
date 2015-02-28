@@ -27,6 +27,9 @@ public class Taxi extends Model implements BasicModel<Long> {
 	@Basic
 	private Date startDate;
 
+	@Basic
+	private Boolean isAdmin;
+	
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -62,5 +65,13 @@ public class Taxi extends Model implements BasicModel<Long> {
 	@Override
 	public String toString() {
 		return "Taxi [key=" + key + ", name=" + name + String.format(", size=%d", size) + "]";
+	}
+
+	public Boolean getIsAdmin() {
+		return isAdmin;
+	}
+
+	public void setIsAdmin(Boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 }

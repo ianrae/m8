@@ -41,6 +41,7 @@ public class TaxiTwixt extends TwixtForm
 	public StringValue name;
 	public IntegerValue size;
 	public DateValue startDate;
+	public BooleanValue isAdmin;
 	
 	public String ball;
 	
@@ -57,6 +58,7 @@ public class TaxiTwixt extends TwixtForm
 		this.name = new StringValue(namex);
 		this.size = new IntegerValue(size);
 		this.startDate = new DateValue(new Date());
+		this.isAdmin = new BooleanValue(true);
 	}
 
 	

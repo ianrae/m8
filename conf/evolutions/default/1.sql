@@ -32,6 +32,7 @@ create table taxi (
   name                      varchar(255),
   size                      integer,
   start_date                timestamp,
+  is_admin                  boolean,
   constraint pk_taxi primary key (key))
 ;
 

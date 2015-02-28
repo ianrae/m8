@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mef.framework.metadata.BooleanValue;
+import org.mef.framework.metadata.IntegerValue;
 import org.mef.framework.metadata.Value;
 import org.mef.framework.metadata.ValueContainer;
 import org.springframework.util.ReflectionUtils;
@@ -15,6 +17,9 @@ import play.twirl.api.Content;
 import play.utils.dao.BasicModel;
 import play.utils.dao.DAO;
 import play.utils.meta.FieldMetadata;
+import play.utils.meta.form.CheckboxWidget;
+import play.utils.meta.form.FormFieldWidget;
+import play.utils.meta.form.NumberWidget;
 import play.utils.meta.form.TextWidget;
 
 public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends TwixtController<K, M,T> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
@@ -43,7 +48,7 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 	private void addFieldToMetaL(Field f)
 	{
 		FieldMetadata meta = new FieldMetadata(f, null); //new StringConverter());
-		TextWidget w = new TextWidget(meta);
+		FormFieldWidget w = createWidget(f, meta);
 		try {
 			forceSetWidget(meta, w);
 			Logger.info("ffff: " + f.getName());
@@ -53,8 +58,27 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		}
 		metaL.add(meta);
 	}
+	
+	protected FormFieldWidget createWidget(Field f, FieldMetadata meta)
+	{
+		Class<?> clazz = f.getType();
+		
+		if (clazz.equals(IntegerValue.class))
+		{
+			return new NumberWidget(meta);
+		}
+		else if (clazz.equals(BooleanValue.class))
+		{
+			return new CheckboxWidget(meta);
+		}
+		else
+		{
+			TextWidget w = new TextWidget(meta);
+			return w;
+		}
+	}
 
-	private void forceSetWidget(FieldMetadata meta2, TextWidget w) throws Exception 
+	private void forceSetWidget(FieldMetadata meta2, FormFieldWidget w) throws Exception 
 	{
 		Field f = ReflectionUtils.findField(meta2.getClass(), "widget");
 		f.setAccessible(true); //force!
