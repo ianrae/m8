@@ -14,7 +14,7 @@ public class TaxiTwixt extends TwixtForm
 	public static class EvenValidator implements IValidator
 	{
 		@Override
-		public void validate(ValContext valctx, Object arg1) 
+		public void validate(ValContext valctx, Value arg1) 
 		{
 			IntegerValue val = (IntegerValue) arg1;
 			int n = val.get();
@@ -27,7 +27,7 @@ public class TaxiTwixt extends TwixtForm
 	public static class NoAValidator implements IValidator
 	{
 		@Override
-		public void validate(ValContext valctx, Object arg1) 
+		public void validate(ValContext valctx, Value arg1) 
 		{
 			StringValue val = (StringValue) arg1;
 			String s = val.get();
