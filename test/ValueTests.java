@@ -153,9 +153,9 @@ public class ValueTests extends BaseTest
 		MyModel m = new MyModel();
 		
 		MyForm frm = new MyForm();
-		frm.abc.setValue(15);
-		frm.b.setValue(true);
-		frm.s.setValue("apple");
+		frm.abc.set(15);
+		frm.b.set(true);
+		frm.s.set("apple");
 		frm.copyTo(m);
 		
 		assertEquals("apple", m.s);

@@ -30,6 +30,10 @@ public class Taxi extends Model implements BasicModel<Long> {
 	@Basic
 	private Boolean isAdmin;
 	
+	@Basic
+	private Long accountTypeId;
+	
+	
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -73,5 +77,13 @@ public class Taxi extends Model implements BasicModel<Long> {
 
 	public void setIsAdmin(Boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+
+	public Long getAccountTypeId() {
+		return accountTypeId;
+	}
+
+	public void setAccountTypeId(Long accountTypeId) {
+		this.accountTypeId = accountTypeId;
 	}
 }

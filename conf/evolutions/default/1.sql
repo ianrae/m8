@@ -33,6 +33,7 @@ create table taxi (
   size                      integer,
   start_date                timestamp,
   is_admin                  boolean,
+  account_type_id           bigint,
   constraint pk_taxi primary key (key))
 ;
 

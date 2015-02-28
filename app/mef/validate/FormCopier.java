@@ -183,6 +183,14 @@ public class FormCopier implements ReflectionUtils.FieldCallback
 				return meth;
 			}
 		}
+		else if (src.getClass().equals(String.class))
+		{
+			meth = ReflectionUtils.findMethod(modelToCopyTo.getClass(), fnName, String.class);
+			if (meth != null)
+			{
+				return meth;
+			}
+		}
 		
 		return null;
 	}
