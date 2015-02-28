@@ -105,9 +105,11 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		if (xlog.isDebugEnabled())
 			xlog.debug("update() <-" + key);
 
-		M original = getDao().get(key);
+		M model = getDao().get(key);
+		T twixt = createTwixt();
+		twixt.copyFrom(model);
 		
-		ValueContainerBinder<T> binder = new ValueContainerBinder<T>(twixtClass);
+		ValueContainerBinder<T> binder = new ValueContainerBinder<T>(twixtClass, twixt);
 		boolean b = binder.bind();
 		Form<T> filledForm = binder.getForm();
 		
@@ -117,11 +119,11 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 
 			return badRequest(xrenderForm(key, filledForm));
 		} else {
-			T twixt = filledForm.get();		
-			twixt.copyTo(original);
+			twixt = filledForm.get();		
+			twixt.copyTo(model);
 			if (xlog.isDebugEnabled())
-				xlog.debug("model : " + original);
-			getDao().update(original);
+				xlog.debug("model : " + model);
+			getDao().update(model);
 			if (xlog.isDebugEnabled())
 				xlog.debug("entity updated");
 

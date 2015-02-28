@@ -18,6 +18,11 @@ public class ValueContainerBinder<T extends ValueContainer> implements IFormBind
 		TwixtBinder binder = new TwixtBinder();
 		private DynamicForm form;
 
+		public ValueContainerBinder(Class<T> clazz, T original)
+		{
+			this.clazz = clazz;
+			this.entity = original;
+		}
 		public ValueContainerBinder(Class<T> clazz)
 		{
 			this.clazz = clazz;
@@ -45,7 +50,7 @@ public class ValueContainerBinder<T extends ValueContainer> implements IFormBind
 	    }		
 		protected boolean bindFromDynamicForm(DynamicForm form)
 		{
-			this.entity = blankInstance(); //throw exception if fails
+			this.entity = (entity != null) ? entity : blankInstance(); //throw exception if fails
 			this.form = form;
 			
 			boolean b = binder.bind(entity, form.data());
