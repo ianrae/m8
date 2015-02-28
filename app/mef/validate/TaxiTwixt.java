@@ -58,7 +58,7 @@ public class TaxiTwixt extends TwixtForm
 		this.name = new StringValue(namex);
 		this.size = new IntegerValue(size);
 		this.startDate = new DateValue(new Date());
-		this.isAdmin = new BooleanValue(true);
+		this.isAdmin = new BooleanValue(false); //MUST be false
 	}
 
 	

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.mef.framework.metadata.BooleanValue;
+import org.mef.framework.metadata.DateValue;
 import org.mef.framework.metadata.IntegerValue;
 import org.mef.framework.metadata.Value;
 import org.mef.framework.metadata.ValueContainer;
@@ -18,6 +19,7 @@ import play.utils.dao.BasicModel;
 import play.utils.dao.DAO;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.form.CheckboxWidget;
+import play.utils.meta.form.DateWidget;
 import play.utils.meta.form.FormFieldWidget;
 import play.utils.meta.form.NumberWidget;
 import play.utils.meta.form.TextWidget;
@@ -70,6 +72,10 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		else if (clazz.equals(BooleanValue.class))
 		{
 			return new CheckboxWidget(meta);
+		}
+		else if (clazz.equals(DateValue.class))
+		{
+			return new DateWidget(meta); //yyyy-mm-dd
 		}
 		else
 		{
