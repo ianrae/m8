@@ -39,11 +39,11 @@ public class SelectValue extends StringValue
 	}
 	
 	@Override
-	public boolean validate(ValContext valctx)
+	public void validate(ValContext valctx)
 	{
 		if (options == null)
 		{
-			return true;
+			return;
 		}
 		
 		String id = get();
@@ -52,7 +52,6 @@ public class SelectValue extends StringValue
 		{
 			valctx.addError("select: unknown id: " + id);
 		}
-		return b;
 	}
 	
 }

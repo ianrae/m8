@@ -28,10 +28,10 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 	}
 	
 	@Override
-	public void doWith(Field arg0) throws IllegalArgumentException,
+	public void doWith(Field field) throws IllegalArgumentException,
 	IllegalAccessException 
 	{
-		addFieldToMetaL(arg0.getName());
+		addFieldToMetaL(field);
 	}
 
 	@Override
@@ -40,14 +40,13 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		return (Value.class.isAssignableFrom(arg0.getType()));
 	}	
 	
-	private void addFieldToMetaL(String fieldName)
+	private void addFieldToMetaL(Field f)
 	{
-		Field f = ReflectionUtils.findField(twixtClass, fieldName);
 		FieldMetadata meta = new FieldMetadata(f, null); //new StringConverter());
 		TextWidget w = new TextWidget(meta);
 		try {
 			forceSetWidget(meta, w);
-			Logger.info("ffff: " + fieldName);
+			Logger.info("ffff: " + f.getName());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -47,6 +47,40 @@ public abstract class TwixtForm implements ValueContainer
 		}
 	}
 	
+	private class ValidationFacade implements  ReflectionUtils.FieldCallback
+	{
+		private ValContext valctx;
+
+		public ValidationFacade(ValContext valctx)
+		{
+			this.valctx = valctx;
+		}
+
+		@Override
+		public void doWith(Field field)
+		{
+			Class<?> clazz = field.getType();
+			if (Value.class.isAssignableFrom(clazz))
+			{
+				try 
+				{
+					field.setAccessible(true);
+					Value value = (Value) field.get(TwixtForm.this);
+					
+					if (value != null)
+					{
+						valctx.setCurrentItemName(field.getName());
+						value.validate(valctx);
+					}
+				} 
+				catch (Exception e) 
+				{
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	private Facade _facade = new Facade(); //avoid name clash, use _
 	
 	public TwixtForm()
@@ -83,8 +117,11 @@ public abstract class TwixtForm implements ValueContainer
 	
 
 	@Override
-	public void validateContainer(ValContext arg0) 
+	public void validate(ValContext valctx) 
 	{
+		//use reflection so we can set itemName for each Value
+		ValidationFacade valfacade = new ValidationFacade(valctx);
+		ReflectionUtils.doWithFields(this.getClass(), valfacade, ReflectionUtils.COPYABLE_FIELDS);
 	}
 	
 }

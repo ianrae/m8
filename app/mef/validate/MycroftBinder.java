@@ -44,7 +44,7 @@ public class MycroftBinder
 		if (ok)
 		{
 			//TODO if validateContainer exists call it, else use reflection
-			input.validateContainer(vtx);
+			input.validate(vtx);
 
 			ok = (vtx.getFailCount() == 0);
 		}

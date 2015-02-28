@@ -4,12 +4,40 @@ import java.util.Date;
 import models.Taxi;
 
 import org.mef.framework.metadata.*;
+import org.mef.framework.metadata.validate.IValidator;
 import org.mef.framework.metadata.validate.ValContext;
 
 import play.Logger;
 
 public class TaxiTwixt extends TwixtForm
 {
+	public static class EvenValidator implements IValidator
+	{
+		@Override
+		public void validate(ValContext valctx, Object arg1) 
+		{
+			IntegerValue val = (IntegerValue) arg1;
+			int n = val.get();
+			if (n % 2 != 0)
+			{
+				valctx.addError("val {0} not even!", n);
+			}
+		}
+	}
+	public static class NoAValidator implements IValidator
+	{
+		@Override
+		public void validate(ValContext valctx, Object arg1) 
+		{
+			StringValue val = (StringValue) arg1;
+			String s = val.get();
+			if (s.contains("a"))
+			{
+				valctx.addError("val contains a");
+			}
+		}
+	}
+	
 	public StringValue name;
 	public IntegerValue size;
 	public DateValue startDate;
@@ -20,6 +48,8 @@ public class TaxiTwixt extends TwixtForm
 	{
 		this("", 0);
 		ball = "red";
+		size.setValidator(new EvenValidator());
+		name.setValidator(new NoAValidator());
 	}
 	
 	public TaxiTwixt(String namex, int size)
@@ -29,13 +59,6 @@ public class TaxiTwixt extends TwixtForm
 		this.startDate = new DateValue(new Date());
 	}
 
-	@Override
-	public void validateContainer(ValContext arg0) 
-	{
-		arg0.validate(name);
-		arg0.validate(size);
-		arg0.validate(startDate);
-	}
 	
 	@Override 
 	public void copyTo(Object model)

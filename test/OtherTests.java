@@ -1,7 +1,9 @@
 import static org.junit.Assert.*;
 
 import java.lang.reflect.Field;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import mef.validate.TaxiTwixt;
@@ -34,6 +36,18 @@ public class OtherTests extends BaseTest implements ReflectionUtils.FieldCallbac
 		Field f = ReflectionUtils.findField(TaxiTwixt.class, "ball");
 		FieldMetadata meta = new FieldMetadata(f, new StringConverter());
 		assertNotNull(f);
+	}
+	
+	@Test
+	public void testFmt()
+	{
+		int planet = 7;
+		 String event = "a disturbance in the Force";
+
+		 String result = MessageFormat.format(
+		     "At {1,time} on {1,date}, there was {2} on planet {0,number,integer}.",
+		     planet, new Date(), event);
+		 log(result);
 	}
 
 	@Test

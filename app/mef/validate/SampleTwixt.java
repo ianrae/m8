@@ -20,9 +20,9 @@ public class SampleTwixt implements ValueContainer
 	}
 
 	@Override
-	public void validateContainer(ValContext arg0) 
+	public void validate(ValContext arg0) 
 	{
-		arg0.validate(name);
+		name.validate(arg0);
 	}
 	
 	@Override 
