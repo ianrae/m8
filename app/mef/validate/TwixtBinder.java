@@ -15,6 +15,7 @@ import org.reflections.Reflections;
 public class TwixtBinder
 {
 	ValContext vtx;
+	private Field fieldBeingParsed;
 
 	public TwixtBinder()
 	{
@@ -38,6 +39,11 @@ public class TwixtBinder
 			ok = bindImpl(input, map);
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (fieldBeingParsed != null) //failed in fromString?
+			{
+				vtx.setCurrentItemName(fieldBeingParsed.getName());				
+				vtx.addError(String.format("%s: invalid input", this.fieldBeingParsed.getName()));
+			}
 		}
 
 		//and validate
@@ -67,7 +73,9 @@ public class TwixtBinder
 				if (obj instanceof Value)
 				{
 					Value val = (Value)obj;
+					fieldBeingParsed = fld;
 					val.fromString(s);
+					fieldBeingParsed = null;
 				}
 			}
 		}
