@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Date;
 
-import org.mef.framework.metadata.Value;
+import org.mef.twixt.Value;
 import org.springframework.util.ReflectionUtils;
 
 import play.Logger;

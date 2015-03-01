@@ -1,9 +1,10 @@
 package mef.validate;
+import org.mef.twixt.StringValue;
+import org.mef.twixt.ValueContainer;
+import org.mef.twixt.validate.ValContext;
+
 import models.Sample;
 
-import org.mef.framework.metadata.*;
-//import org.mef.framework.metadata.validate.ValContext;
-import org.mef.framework.metadata.validate.ValContext;
 
 public class SampleTwixt implements ValueContainer
 {

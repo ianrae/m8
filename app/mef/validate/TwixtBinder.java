@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.mef.framework.metadata.Value;
-import org.mef.framework.metadata.ValueContainer;
-import org.mef.framework.metadata.validate.ValContext;
-import org.mef.framework.metadata.validate.ValidationErrorSpec;
+import org.mef.twixt.*;
+import org.mef.twixt.validate.*;
 import org.reflections.Reflections;
 
 public class TwixtBinder

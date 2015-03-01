@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.mef.framework.binder.IFormBinder;
-import org.mef.framework.metadata.ValueContainer;
-import org.mef.framework.metadata.validate.ValidationErrorSpec;
+import org.mef.twixt.ValueContainer;
+import org.mef.twixt.validate.ValidationErrorSpec;
 
 import play.data.DynamicForm;
 import play.data.Form;

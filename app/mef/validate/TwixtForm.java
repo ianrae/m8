@@ -2,9 +2,8 @@ package mef.validate;
 
 import java.lang.reflect.Field;
 
-import org.mef.framework.metadata.Value;
-import org.mef.framework.metadata.ValueContainer;
-import org.mef.framework.metadata.validate.ValContext;
+import org.mef.twixt.*;
+import org.mef.twixt.validate.ValContext;
 import org.springframework.util.ReflectionUtils;
 
 public abstract class TwixtForm implements ValueContainer

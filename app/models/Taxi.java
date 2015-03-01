@@ -33,6 +33,9 @@ public class Taxi extends Model implements BasicModel<Long> {
 	@Basic
 	private Long accountTypeId;
 	
+	@Basic
+	private String path;
+	
 	
 	public Date getStartDate() {
 		return startDate;
@@ -85,5 +88,13 @@ public class Taxi extends Model implements BasicModel<Long> {
 
 	public void setAccountTypeId(Long accountTypeId) {
 		this.accountTypeId = accountTypeId;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

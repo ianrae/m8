@@ -1,17 +1,23 @@
 package mef.validate;
 import java.util.Date;
 
+import org.mef.twixt.BooleanValue;
+import org.mef.twixt.DateValue;
+import org.mef.twixt.FileValue;
+import org.mef.twixt.IntegerValue;
+import org.mef.twixt.StringValue;
+import org.mef.twixt.Value;
+import org.mef.twixt.validate.ValContext;
+import org.mef.twixt.validate.Validator;
+
 import models.Taxi;
 
-import org.mef.framework.metadata.*;
-import org.mef.framework.metadata.validate.IValidator;
-import org.mef.framework.metadata.validate.ValContext;
 
 import play.Logger;
 
 public class TaxiTwixt extends TwixtForm
 {
-	public static class EvenValidator implements IValidator
+	public static class EvenValidator implements Validator
 	{
 		@Override
 		public void validate(ValContext valctx, Value arg1) 
@@ -24,7 +30,7 @@ public class TaxiTwixt extends TwixtForm
 			}
 		}
 	}
-	public static class NoAValidator implements IValidator
+	public static class NoAValidator implements Validator
 	{
 		@Override
 		public void validate(ValContext valctx, Value arg1) 
@@ -43,6 +49,7 @@ public class TaxiTwixt extends TwixtForm
 	public DateValue startDate;
 	public BooleanValue isAdmin;
 	public AccountType accountTypeId; //name must match Taxi
+	public FileValue path;
 	
 	public String ball;
 	
@@ -63,6 +70,7 @@ public class TaxiTwixt extends TwixtForm
 		this.startDate = new DateValue(new Date());
 		this.isAdmin = new BooleanValue(false); //MUST be false
 		this.accountTypeId = new AccountType();
+		this.path = new FileValue();
 	}
 
 	

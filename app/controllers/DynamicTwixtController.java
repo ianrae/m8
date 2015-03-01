@@ -7,13 +7,7 @@ import java.util.TreeMap;
 
 import mef.validate.MySelectWidget;
 
-import org.mef.framework.metadata.BooleanValue;
-import org.mef.framework.metadata.DateValue;
-import org.mef.framework.metadata.IntegerValue;
-import org.mef.framework.metadata.LongSelectValue;
-import org.mef.framework.metadata.SelectValue;
-import org.mef.framework.metadata.Value;
-import org.mef.framework.metadata.ValueContainer;
+import org.mef.twixt.*;
 import org.springframework.util.ReflectionUtils;
 
 import play.Logger;
@@ -25,6 +19,7 @@ import play.utils.dao.DAO;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.form.CheckboxWidget;
 import play.utils.meta.form.DateWidget;
+import play.utils.meta.form.FileWidget;
 import play.utils.meta.form.FormFieldWidget;
 import play.utils.meta.form.NumberWidget;
 import play.utils.meta.form.SelectWidget;
@@ -137,6 +132,10 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		else if (LongSelectValue.class.isAssignableFrom(clazz))
 		{
 			return new MySelectWidget(meta);
+		}
+		else if (FileValue.class.isAssignableFrom(clazz))
+		{
+			return new FileWidget(meta);
 		}
 		else
 		{

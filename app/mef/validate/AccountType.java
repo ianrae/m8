@@ -3,8 +3,8 @@ package mef.validate;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.mef.framework.metadata.LongSelectValue;
-import org.mef.framework.metadata.SelectValue;
+import org.mef.twixt.LongSelectValue;
+
 
 public class AccountType extends LongSelectValue
 {

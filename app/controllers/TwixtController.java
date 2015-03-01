@@ -4,9 +4,10 @@ import static play.data.Form.form;
 
 import javax.inject.Inject;
 
+import org.mef.twixt.ValueContainer;
+
 import mef.validate.ValueContainerBinder;
 
-import org.mef.framework.metadata.ValueContainer;
 
 import play.Logger;
 import play.Logger.ALogger;

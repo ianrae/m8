@@ -34,6 +34,7 @@ create table taxi (
   start_date                timestamp,
   is_admin                  boolean,
   account_type_id           bigint,
+  path                      varchar(255),
   constraint pk_taxi primary key (key))
 ;
 
