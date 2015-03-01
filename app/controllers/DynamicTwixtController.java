@@ -47,6 +47,18 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 				w.options = new TreeMap<Object,String>();
 				for(Long key : val.options().keySet())
 				{
+					w.options.put(key.toString(), val.options().get(key)); //put key as string because form.value will be string
+				}
+			}
+			else if (SelectValue.class.isAssignableFrom(clazz))
+			{
+				SelectValue val = (SelectValue) arg0.get(preRenderTwixt);
+				FieldMetadata meta = findMeta(arg0);
+				MySelectWidget w = (MySelectWidget) meta.getWidget();
+				
+				w.options = new TreeMap<Object,String>();
+				for(String key : val.options().keySet())
+				{
 					w.options.put(key, val.options().get(key));
 				}
 			}
@@ -143,6 +155,7 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 	@Override
 	protected Content xrenderForm(K key, Form<T> form) 
 	{
+		//need to assign options map to any selectvalues
 		preRenderTwixt = form.get();
 		ReflectionUtils.doWithFields(preRenderTwixt.getClass(), new PreRender(), ReflectionUtils.COPYABLE_FIELDS);
 
