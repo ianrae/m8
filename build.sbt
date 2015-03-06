@@ -8,8 +8,8 @@ libraryDependencies ++= Seq(
   javaCore, javaJdbc, javaEbean,
   "play2-crud" %% "play2-crud" % "0.7.4-SNAPSHOT",
   "play2-crud" %% "play2-crud" % "0.7.4-SNAPSHOT" classifier "assets",
- "mettle" % "mettle_2.11" % "0.5.0-SNAPSHOT"
-  
+  "twixt" % "twixt_2.11" % "0.1.0-SNAPSHOT",
+  "mettle" % "mettle_2.11" % "0.5.0-SNAPSHOT"   
 )
 
 lazy val root = (project in file(".")).enablePlugins(PlayJava)
