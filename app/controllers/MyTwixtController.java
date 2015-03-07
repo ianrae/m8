@@ -20,12 +20,12 @@ import play.utils.crud.CRUDController;
 import play.utils.dao.BasicModel;
 import play.utils.dao.DAO;
 
-public abstract class TwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends CRUDController<K, M> 
+public abstract class MyTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends CRUDController<K, M> 
 {
 	protected Class<T> twixtClass;
 	
 	@Inject
-	public TwixtController(DAO<K, M> dao, Class<K> keyClass, Class<M> modelClass, Class<T>twixtClass, int pageSize, String orderBy) {
+	public MyTwixtController(DAO<K, M> dao, Class<K> keyClass, Class<M> modelClass, Class<T>twixtClass, int pageSize, String orderBy) {
 		super(dao, form(modelClass), keyClass, modelClass, pageSize, orderBy);
 		this.twixtClass = twixtClass;
 	}

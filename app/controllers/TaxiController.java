@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 
 import javax.inject.Inject;
 
+
 import mef.validate.TaxiTwixt;
 import models.Taxi;
 import models.dao.TaxiDAO;
@@ -11,9 +12,8 @@ import play.mvc.Call;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.form.FormFieldWidget;
 import play.utils.meta.form.TextAreaWidget;
-import play.utils.meta.form.TextWidget;
 
-public class TaxiController extends DynamicTwixtController<Long, Taxi, TaxiTwixt> 
+public class TaxiController extends MyDynamicTwixtController<Long, Taxi, TaxiTwixt> 
 {
 	@Inject
 	public TaxiController(TaxiDAO dao) 
@@ -33,6 +33,22 @@ public class TaxiController extends DynamicTwixtController<Long, Taxi, TaxiTwixt
 		{
 			return super.createWidget(f, meta);
 		}
+	}
+	
+	
+	@Override
+	protected String templateForList() {
+		return  genTemplate("List");
+	}
+
+	@Override
+	protected String templateForForm() {
+		return  genTemplate("Form");
+	}
+
+	@Override
+	protected String templateForShow() {
+		return  genTemplate("Show");
 	}
 	
 

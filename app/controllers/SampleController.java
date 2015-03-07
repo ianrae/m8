@@ -2,12 +2,13 @@ package controllers;
 
 import javax.inject.Inject;
 
+
 import mef.validate.SampleTwixt;
 import models.Sample;
 import models.dao.SampleDAO;
 import play.mvc.Call;
 
-public class SampleController extends TwixtController<Long, Sample, SampleTwixt> {
+public class SampleController extends MyTwixtController<Long, Sample, SampleTwixt> {
 	
 	@Inject
 	public SampleController(SampleDAO dao) 
@@ -19,6 +20,21 @@ public class SampleController extends TwixtController<Long, Sample, SampleTwixt>
 	@Override
 	protected Call toIndex() {
 		return routes.Application.index();
+	}
+	
+	@Override
+	protected String templateForList() {
+		return  genTemplate("List");
+	}
+
+	@Override
+	protected String templateForForm() {
+		return  genTemplate("Form");
+	}
+
+	@Override
+	protected String templateForShow() {
+		return  genTemplate("Show");
 	}
 	
 }
