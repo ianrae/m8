@@ -19,6 +19,7 @@ public class TaxiController extends MyDynamicTwixtController<Long, Taxi, TaxiTwi
 	public TaxiController(TaxiDAO dao) 
 	{
 		super(dao, Long.class, Taxi.class, TaxiTwixt.class, 10, "name");
+		templatePackageName = "views.html.taxi.";
 	}
 	
 	@Override
