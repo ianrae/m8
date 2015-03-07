@@ -10,17 +10,17 @@ import mef.validate.TaxiTwixt;
 import models.Sample;
 
 import org.junit.Test;
-import org.mef.framework.metadata.Value;
 
-import testbase.BaseTest;
 
+import org.mef.twixt.Value;
 import org.springframework.util.ReflectionUtils;
 
+import base.Base;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.convert.StringConverter;
 import controllers.TaxiController;
 
-public class OtherTests extends BaseTest implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
+public class OtherTests extends Base implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
 {
 
 	@Test

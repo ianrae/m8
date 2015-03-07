@@ -2,14 +2,15 @@ import static org.junit.Assert.*;
 import mef.validate.TwixtForm;
 
 import org.junit.Test;
-import org.mef.framework.metadata.BooleanValue;
-import org.mef.framework.metadata.IntegerValue;
-import org.mef.framework.metadata.StringValue;
+import org.mef.twixt.BooleanValue;
+import org.mef.twixt.IntegerValue;
+import org.mef.twixt.StringValue;
 
-import testbase.BaseTest;
+import base.Base;
 
 
-public class ValueTests extends BaseTest
+
+public class ValueTests extends Base
 {
 	public static class MyForm extends TwixtForm
 	{
@@ -177,7 +178,7 @@ public class ValueTests extends BaseTest
 		
 		assertEquals(0, frm.abc.get());
 		assertEquals(true, frm.b.get());
-		assertEquals(null, frm.s.get());
+		assertEquals("", frm.s.get());
 	}
 	
 }

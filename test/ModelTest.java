@@ -1,16 +1,15 @@
 import org.junit.*;
 
-import testbase.BaseTest;
-
 import java.util.*;
 
 import static play.test.Helpers.*;
 import static org.fest.assertions.Assertions.*;
 import models.*;
+import base.Base;
 
 import com.avaje.ebean.*;
 
-public class ModelTest extends BaseTest
+public class ModelTest extends Base
 {
     
     private String formatted(Date date) {
