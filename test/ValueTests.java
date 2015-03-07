@@ -1,10 +1,10 @@
 import static org.junit.Assert.*;
-import mef.validate.TwixtForm;
 
 import org.junit.Test;
 import org.mef.twixt.BooleanValue;
 import org.mef.twixt.IntegerValue;
 import org.mef.twixt.StringValue;
+import org.mef.twixt.binder.TwixtForm;
 
 import base.Base;
 

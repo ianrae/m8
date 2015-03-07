@@ -7,6 +7,7 @@ import org.mef.twixt.FileValue;
 import org.mef.twixt.IntegerValue;
 import org.mef.twixt.StringValue;
 import org.mef.twixt.Value;
+import org.mef.twixt.binder.TwixtForm;
 import org.mef.twixt.validate.ValContext;
 import org.mef.twixt.validate.Validator;
 

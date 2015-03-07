@@ -25,7 +25,7 @@ import play.utils.meta.form.NumberWidget;
 import play.utils.meta.form.SelectWidget;
 import play.utils.meta.form.TextWidget;
 
-public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends TwixtController<K, M,T> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
+public abstract class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueContainer> extends TwixtController<K, M,T> implements ReflectionUtils.FieldCallback, ReflectionUtils.FieldFilter
 {
 	private class PreRender implements  ReflectionUtils.FieldCallback
 	{
@@ -161,9 +161,6 @@ public class DynamicTwixtController<K,  M extends BasicModel<K>,T extends ValueC
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form).and(metaL.getClass(), metaL));
 	}	
 
-	@Override
-	protected Call toIndex() {
-		return routes.Application.index();
-	}
+
 
 }

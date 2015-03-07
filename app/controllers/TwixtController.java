@@ -6,8 +6,9 @@ import javax.inject.Inject;
 
 import org.mef.twixt.ValueContainer;
 
-import mef.validate.TwixtBinder;
 
+
+import org.mef.twixt.binder.TwixtBinder;
 
 import play.Logger;
 import play.Logger.ALogger;
@@ -29,12 +30,6 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		this.twixtClass = twixtClass;
 	}
 
-	@Override
-	protected Call toIndex() {
-		return routes.Application.index();
-	}
-	
-	
 	private static ALogger xlog = Logger.of(CRUDController.class);
 	
 	protected Content xrenderForm(K key, Form<T> form) 
