@@ -1,83 +1,109 @@
 package mef.validate;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.mef.twixt.*;
-import org.mef.twixt.validate.*;
-import org.reflections.Reflections;
+import org.mef.framework.binder.IFormBinder;
+import org.mef.twixt.ValueContainer;
+import org.mef.twixt.validate.ValidationErrorSpec;
 
-public class TwixtBinder
-{
-	ValContext vtx;
-	private Field fieldBeingParsed;
+import play.data.DynamicForm;
+import play.data.Form;
+import play.data.validation.ValidationError;
 
-	public TwixtBinder()
+public class TwixtBinder<T extends ValueContainer> implements IFormBinder<T>
 	{
-		vtx = new ValContext();
-	}
+		private T entity;
+		private Class<T> clazz;
+		ReflectionBinder binder = new ReflectionBinder();
+		private DynamicForm form;
 
-	public Map<String,List<ValidationErrorSpec>> getErrors()
-	{
-		return vtx.getErrors();
-	}
-	public ValContext getContext()
-	{
-		return vtx;
-	}
+		public TwixtBinder(Class<T> clazz, T original)
+		{
+			this.clazz = clazz;
+			this.entity = original;
+		}
+		public TwixtBinder(Class<T> clazz)
+		{
+			this.clazz = clazz;
+		}
+		
+		@Override
+		public boolean bind() 
+		{
+			DynamicForm form = Form.form().bindFromRequest();
+			return bindFromDynamicForm(form);
+		}
+		protected boolean bindFromMap(Map<String,String> anyData)
+		{
+			DynamicForm form = Form.form().bind(anyData);
+			return bindFromDynamicForm(form);
+		}
+		
+		private T blankInstance() 
+		{
+	        try {
+	            return (T) clazz.newInstance();
+	        } catch(Exception e) {
+	            throw new RuntimeException("Cannot instantiate " + clazz + ". It must have a default constructor", e);
+	        }
+	    }		
+		protected boolean bindFromDynamicForm(DynamicForm form)
+		{
+			this.entity = (entity != null) ? entity : blankInstance(); //throw exception if fails
+			this.form = form;
+			
+			boolean b = binder.bind(entity, form.data());
+			
+			//get errors (in getForm)
+			return b;
+		}
 
-	boolean bind(ValueContainer input, Map<String,String> map) 
-	{
-		boolean ok = false;
+		@Override
+		public T get() 
+		{
+			return entity;
+		}
 
-		try {
-			ok = bindImpl(input, map);
-		} catch (Exception e) {
-			e.printStackTrace();
-			if (fieldBeingParsed != null) //failed in fromString?
+		@Override
+		public Object getValidationErrors() 
+		{
+			Form<T> frm = getForm();
+			return frm.errors();
+		}
+
+		@Override
+		public Form<T> getForm()
+		{
+			Form<T> frm;
+			if (this.entity != null)
 			{
-				vtx.setCurrentItemName(fieldBeingParsed.getName());				
-				vtx.addError(String.format("%s: invalid input", this.fieldBeingParsed.getName()));
+				frm = this.fillForm(this.entity); //copy over field values
 			}
-		}
-
-		//and validate
-		if (ok)
-		{
-			//TODO if validateContainer exists call it, else use reflection
-			input.validate(vtx);
-
-			ok = (vtx.getFailCount() == 0);
-		}
-
-		return ok;
-	}
-
-	boolean bindImpl(ValueContainer input, Map<String,String> map) throws Exception
-	{
-		boolean ok = true;
-		Set<Field> list = Reflections.getAllFields(input.getClass(), Reflections.withModifier(Modifier.PUBLIC));
-		for(Field fld : list)
-		{
-			String fieldName = fld.getName();
-
-			String s = map.get(fieldName);
-			if (s != null)
+			else
 			{
-				Object obj = fld.get(input);
-				if (obj instanceof Value)
+				frm = Form.form(clazz);
+			}
+			
+			//and add errors
+			Map<String, List<ValidationErrorSpec>> errorMap = binder.getErrors();
+			for(String key : errorMap.keySet())
+			{
+				List<ValidationErrorSpec> specL = errorMap.get(key);
+				for(ValidationErrorSpec spec : specL)
 				{
-					Value val = (Value)obj;
-					fieldBeingParsed = fld;
-					val.fromString(s);
-					fieldBeingParsed = null;
+					ValidationError error = new ValidationError(spec.key, spec.message);
+					frm.reject(error);
 				}
 			}
+			
+			return frm;
 		}
-
-		return ok;
+		
+		public Form<T> fillForm(T input)
+		{
+			Form<T> form = Form.form(clazz);
+			form = form.fill(input);
+			return form;
+		}
 	}
-}

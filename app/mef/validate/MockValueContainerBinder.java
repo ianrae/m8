@@ -5,7 +5,7 @@ import java.util.Map;
 import org.mef.twixt.ValueContainer;
 
 
-public class MockValueContainerBinder<T extends ValueContainer> extends ValueContainerBinder<T>
+public class MockValueContainerBinder<T extends ValueContainer> extends TwixtBinder<T>
 	{
 		private Map<String, String> mockData;
 

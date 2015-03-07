@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.mef.twixt.ValueContainer;
 
-import mef.validate.ValueContainerBinder;
+import mef.validate.TwixtBinder;
 
 
 import play.Logger;
@@ -69,7 +69,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		if (xlog.isDebugEnabled())
 			xlog.debug("ccXcreate() <-");
 		
-		ValueContainerBinder<T> binder = new ValueContainerBinder<T>(twixtClass);
+		TwixtBinder<T> binder = new TwixtBinder<T>(twixtClass);
 		boolean b = binder.bind();
 		Form<T> filledForm = binder.getForm();
 		
@@ -120,7 +120,7 @@ public abstract class TwixtController<K,  M extends BasicModel<K>,T extends Valu
 		T twixt = createTwixt();
 		twixt.copyFrom(model);
 		
-		ValueContainerBinder<T> binder = new ValueContainerBinder<T>(twixtClass, twixt);
+		TwixtBinder<T> binder = new TwixtBinder<T>(twixtClass, twixt);
 		boolean b = binder.bind();
 		Form<T> filledForm = binder.getForm();
 		
