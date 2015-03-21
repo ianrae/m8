@@ -1,31 +1,13 @@
 @(key: Long, taxiForm: Form[mef.validate.TaxiTwixt], fieldL:ArrayList[play.utils.meta.FieldMetadata])
 @import helper._ 
 
-@crudActionName(key: Long, name:String) = @{
+@actionName(key: Long, name:String) = @{
   if(key != null) "update " + name else "new " + name
 }
-@buttonName(key: Long) = @{
- if(key != null) { "Update" } else { "Create" }
-}
-@formRoute(key: Long, name:String) = @{
-if(key != null) { play.utils.crud.routes.RouterCrudController.update(name, key.toString() + "") } 
-          else            { play.utils.crud.routes.RouterCrudController.create(name) }
-}
 
-
-@main(crudActionName(key,"taxi")) {
+@main(actionName(key,"taxi")) {
         
-	<h3>@crudActionName(key,"taxi")</h3>
+	<h3>@actionName(key,"taxi")</h3>
 
-    @form(formRoute(key,"Taxi")) { 
-        
-	    @for(field <- fieldL) {        
-	        <div>B
-			@field.getWidget.render(taxiForm)
-	        </div>
-        }
-        <div>
-           <input type="submit" class="btn btn-success" value="@buttonName(key)">
-        </div>
-    }
+	@util.dynForm(key, "Taxi", taxiForm, fieldL)
 }

@@ -1,0 +1,17 @@
+@(key: Long, name:String, tform:Form[_], fieldL:ArrayList[play.utils.meta.FieldMetadata])
+@import helper._ 
+
+    @form(if(key != null) { play.utils.crud.routes.RouterCrudController.update(name, key.toString() + "") } 
+          else            { play.utils.crud.routes.RouterCrudController.create(name) }) { 
+        
+	    @for(field <- fieldL) {        
+	        <div>B
+			@field.getWidget.render(tform)
+	        </div>
+        }
+        <div>
+           <input type="submit" class="btn btn-success" value="@if(key != null) { Update } else { Create }">
+        </div>
+    }
+
+    
