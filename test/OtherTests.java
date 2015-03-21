@@ -5,6 +5,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import mef.validate.TaxiTwixt;
 import models.Sample;
@@ -13,9 +14,17 @@ import org.junit.Test;
 
 
 import org.mef.twixt.Value;
+import org.mef.twixt.controllers.DynamicTwixtController;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 import org.springframework.util.ReflectionUtils;
 
 import base.Base;
+import play.utils.crud.CRUD;
+import play.utils.crud.CRUDController;
+import play.utils.dyn.DynamicCrudController;
 import play.utils.meta.FieldMetadata;
 import play.utils.meta.convert.StringConverter;
 import controllers.TaxiController;
@@ -75,6 +84,30 @@ public class OtherTests extends Base implements ReflectionUtils.FieldCallback, R
 	public boolean matches(Field arg0) 
 	{
 		return (Value.class.isAssignableFrom(arg0.getType()));
+	}
+	
+	@Test
+	public void testRefl()
+	{
+		ClassLoader cls = this.getClass().getClassLoader();
+		ClassLoader cls2 = DynamicTwixtController.class.getClassLoader();
+		ClassLoader cls3 = DynamicCrudController.class.getClassLoader();
+		
+		ConfigurationBuilder builder = new ConfigurationBuilder().setUrls(
+				ClasspathHelper.forPackage(""));
+		builder.addUrls(ClasspathHelper.forPackage("org.mef.twixt"));
+		
+		Reflections reflections = new Reflections( builder.setScanners(new SubTypesScanner()));
+
+
+//		Class<? extends CRUD> clazz = DynamicTwixtController.class;
+		Class<? extends CRUD> clazz = CRUDController.class;
+		Set<?> controllerClasses = reflections.getSubTypesOf(clazz);
+		
+		for(Object cc : controllerClasses)
+		{
+			this.log("ccc: " + cc);
+		}
 	}
 
 }
