@@ -179,7 +179,7 @@ public abstract class MyTwixtController<K,  M extends BasicModel<K>,T extends Va
 	
 	@Override
 	protected String templateForList() {
-		return  genTemplate("List");
+		return  genTemplate("zList");
 	}
 
 	@Override
