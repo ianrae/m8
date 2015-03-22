@@ -37,6 +37,15 @@ public abstract class MyTwixtController<K,  M extends BasicModel<K>,T extends Va
 		return render(templateForForm(), with(getKeyClass(), key).and(Form.class, form));
 	}
 	
+	protected boolean isLogDebug()
+	{
+		return xlog.isDebugEnabled();
+	}
+	protected void log(String s)
+	{
+		xlog.debug(s);
+	}
+	
 	
 	public Result newForm() {
 		if (xlog.isDebugEnabled())

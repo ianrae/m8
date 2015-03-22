@@ -43,11 +43,6 @@ public class TaxiController extends MyDynamicTwixtController<Long, Taxi, TaxiTwi
 		return  genTemplate("Form");
 	}
 
-	@Override
-	protected String templateForShow() {
-		return  genTemplate("Show");
-	}
-	
 
 	
 	@Override

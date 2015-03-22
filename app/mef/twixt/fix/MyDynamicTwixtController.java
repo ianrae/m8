@@ -24,6 +24,8 @@ import play.Logger;
 import play.data.Form;
 import play.twirl.api.Content;
 import play.utils.crud.CRUDManager;
+import play.utils.crud.Parameters;
+import play.utils.crud.TemplateController.MethodNotFoundException;
 import play.utils.dao.BasicModel;
 import play.utils.dao.DAO;
 import play.utils.meta.FieldMetadata;
@@ -177,24 +179,60 @@ public abstract class MyDynamicTwixtController<K,  M extends BasicModel<K>,T ext
 
 	@Override
 	protected Content renderList(Page p) {
-//		try {
-//			return super.renderList(p);
-//		} catch (TemplateNotFoundException e) {
-//			// use dynamic template
-//		if (log.isDebugEnabled())
-		
+		try {
+			return super.renderList(p);
+		} catch (TemplateNotFoundException e) {
+			// use dynamic template
+			ModelMetadata model = this.getModelMetadata();
+			
+			if (isLogDebug())
+			{
+				log("Rendering dynamic xLIST template for model : " + model);
+			}
+			return play.utils.crud.views.html.list.render(model, model.getFields().values(), p);
+		}
+	}
+	@Override
+	protected Content renderShow(M modelObject) {
+		try {
+			return super.renderShow(modelObject);
+		} catch (TemplateNotFoundException e) {
+			// use dynamic template
+			ModelMetadata model = this.getModelMetadata();
+			if (isLogDebug())
+				log("Rendering dynamic SHOW template for model : " + model);
+			return play.utils.crud.views.html.show.render(model, model.getFields().values(), modelObject);
+		}
+	}
+	private ModelMetadata getModelMetadata()
+	{
 		CRUDManager m = CRUDManager.getInstance();
 		ModelMetadata model = m.getMetadata(Taxi.class);
-		Logger.debug("Rendering dynamic xLIST template for model : " + model);
-		return play.utils.crud.views.html.list.render(model, model.getFields().values(), p);
+		return model;
 	}
-	
 	
 	@Override
 	protected String templateForList() {
 		return  NO_TEMPLATE; //use play2-crud's pre-defined one
 	}
+	@Override
+	protected String templateForShow() {
+		return  NO_TEMPLATE; //use play2-crud's pre-defined one
+	}
+	
 
 
+	@Override
+	protected Content render(String template, Parameters params) {
+		Content content;
+		try {
+			content = call(templatePackageName + template, "render", params);
+		} catch (ClassNotFoundException | MethodNotFoundException e) {
+			if (isLogDebug())
+				log("template not found : '" + template + "'");
+			throw new TemplateNotFoundException();
+		}
+		return content;
+	}	
 
 }
